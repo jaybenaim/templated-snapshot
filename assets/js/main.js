@@ -5,100 +5,85 @@
 */
 
 (function($) {
+  skel.breakpoints({
+    xlarge: "(max-width: 1680px)",
+    large: "(max-width: 1280px)",
+    medium: "(max-width: 980px)",
+    small: "(max-width: 736px)",
+    xsmall: "(max-width: 480px)"
+  });
 
-	skel.breakpoints({
-		xlarge: '(max-width: 1680px)',
-		large: '(max-width: 1280px)',
-		medium: '(max-width: 980px)',
-		small: '(max-width: 736px)',
-		xsmall: '(max-width: 480px)'
-	});
+  $(function() {
+    var $window = $(window),
+      $body = $("body");
 
-	$(function() {
+    // Disable animations/transitions until the page has loaded.
+    $body.addClass("is-loading");
 
-		var	$window = $(window),
-			$body = $('body');
+    $window.on("load", function() {
+      window.setTimeout(function() {
+        $body.removeClass("is-loading");
+      }, 100);
+    });
 
-		// Disable animations/transitions until the page has loaded.
-			$body.addClass('is-loading');
+    // Fix: Placeholder polyfill.
+    $("form").placeholder();
 
-			$window.on('load', function() {
-				window.setTimeout(function() {
-					$body.removeClass('is-loading');
-				}, 100);
-			});
+    // Prioritize "important" elements on medium.
+    skel.on("+medium -medium", function() {
+      $.prioritize(
+        ".important\\28 medium\\29",
+        skel.breakpoint("medium").active
+      );
+    });
 
-		// Fix: Placeholder polyfill.
-			$('form').placeholder();
+    // Scrolly.
+    $(".scrolly").scrolly();
 
-		// Prioritize "important" elements on medium.
-			skel.on('+medium -medium', function() {
-				$.prioritize(
-					'.important\\28 medium\\29',
-					skel.breakpoint('medium').active
-				);
-			});
+    // Gallery.
+    $(".gallery").each(function() {
+      var $gallery = $(this),
+        $content = $gallery.find(".content");
 
-		// Scrolly.
-			$('.scrolly').scrolly();
+      // Poptrox.
+      $content.poptrox({
+        usePopupCaption: true
+      });
 
-		// Gallery.
-			$('.gallery').each(function() {
+      // Tabs.
+      $gallery.each(function() {
+        var $this = $(this),
+          $tabs = $this.find(".tabs a"),
+          $media = $this.find(".media");
 
-				var	$gallery = $(this),
-					$content = $gallery.find('.content');
+        $tabs.on("click", function(e) {
+          var $this = $(this),
+            tag = $this.data("tag");
 
-				// Poptrox.
-					$content.poptrox({
-						usePopupCaption: true
-					});
+          // Prevent default.
+          e.preventDefault();
 
-				// Tabs.
-					$gallery.each( function() {
+          // Remove active class from all tabs.
+          $tabs.removeClass("active");
 
-						var $this = $(this),
-							$tabs = $this.find('.tabs a'),
-							$media = $this.find('.media');
+          // Reapply active class to current tab.
+          $this.addClass("active");
 
-						$tabs.on('click', function(e) {
+          // Hide media that do not have the same class as the clicked tab.
+          $media.fadeOut("fast").each(function() {
+            var $this = $(this);
 
-							var $this = $(this),
-								tag = $this.data('tag');
-
-							// Prevent default.
-							 	e.preventDefault();
-
-							// Remove active class from all tabs.
-								$tabs.removeClass('active');
-
-							// Reapply active class to current tab.
-								$this.addClass('active');
-
-							// Hide media that do not have the same class as the clicked tab.
-								$media
-									.fadeOut('fast')
-									.each(function() {
-
-										var $this = $(this);
-
-										if ($this.hasClass(tag))
-											$this
-												.fadeOut('fast')
-												.delay(200)
-												.queue(function(next) {
-													$this.fadeIn();
-													next();
-												});
-
-									});
-
-						});
-
-					});
-
-
-			});
-
-	});
-
+            if ($this.hasClass(tag))
+              $this
+                .fadeOut("fast")
+                .delay(200)
+                .queue(function(next) {
+                  $this.fadeIn();
+                  next();
+                });
+          });
+        });
+      });
+    });
+  });
 })(jQuery);
