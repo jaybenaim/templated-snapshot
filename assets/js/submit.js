@@ -1,24 +1,23 @@
-const form = document.querySelector("form");
+const form = document.querySelector(".email-form");
 const displayAlert = data => {
-  const { name, email, message } = data.body;
-  const messageConfirmed = `<div> <br /> Message sent to ${email}.<br />  </div> <br /> <div>Message: <p> ${message} <br />  from ${name}.</p> </div> `;
-  $("form").append(messageConfirmed);
+  const { name, message } = data;
+  const messageConfirmed = `<div> <br /> Message sent.<br />  </div> <br /> <div>Message: <p> ${message} <br />  from ${name}.</p> </div> `;
+  $(".email-form").append(messageConfirmed);
 };
 
 $(function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
-    const formattedFormData = new FormData(form);
-    postData(formattedFormData);
+    const formData = $(".email-form");
+    const name = formData.find("#name").val();
+    const email = formData.find("#email").val();
+    const message = formData.find("#message").val();
+    const formattedFormData = { name, email, message };
+
+    window.open(
+      `mailto:benaimjacob@gmail.com?subject=333%20Example%20Road%20from%20${name}&body=${message}`
+    );
+
+    displayAlert(formattedFormData);
   });
 });
-async function postData(formattedFormData) {
-  const response = await fetch("http://localhost/backend/php/submitEmail.php", {
-    method: "POST",
-    body: formattedFormData
-  });
-  const data = await response.text();
-
-  const json = JSON.parse(data);
-  displayAlert(json);
-}
