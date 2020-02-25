@@ -1486,6 +1486,7 @@ table.alt tfoot {
   z-index: 10002;
   position: relative;
   width: 4em;
+  margin-bottom: -500px;
 }
 
 #nav ul {
