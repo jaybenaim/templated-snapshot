@@ -174,7 +174,10 @@
           <!-- Form -->
           <div class="column">
             <h3>Get in Touch</h3>
-            <form action="#" method="post">
+            <form
+              action="http://localhost/backend/php/submitEmail.php"
+              method="POST"
+            >
               <div class="field half first">
                 <label for="name">Name</label>
                 <input name="name" id="name" type="text" placeholder="Name" />
@@ -209,8 +212,8 @@
         <!-- Footer -->
         <footer id="footer">
           <div class="copyright">
-            &copy; Untitled Design:
-            <a href="https://templated.co/">TEMPLATED</a>. Images:
+            &copy;
+            <a href="https://jacobbenaim.ca/"> Jacob Benaim</a>. Images:
             <a href="https://unsplash.com/">Unsplash</a>.
           </div>
         </footer>
@@ -224,5 +227,6 @@
     <script src="assets/js/skel.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/submit.js" type="module"></script>
   </body>
 </html>
