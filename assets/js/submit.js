@@ -28,9 +28,15 @@ const validateForm = form => {
   let message = form.find("#message").val();
 
   const regex = /<\w*/gm;
+  const invalidName = name.match(regex);
+  const invalidEmail = email.match(regex);
   const invalidMessage = message.match(regex);
 
-  if (!invalidMessage) {
+  if (
+    invalidName === null &&
+    invalidEmail === null &&
+    invalidMessage === null
+  ) {
     message = `${message} \n from ${name}`;
     return { name, email, message };
   } else {
