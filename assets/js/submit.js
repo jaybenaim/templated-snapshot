@@ -15,7 +15,7 @@ $(function() {
     const formattedFormData = { name, email, message };
 
     window.open(
-      `mailto:benaimjacob@gmail.com?subject=333%20Example%20Road%20from%20${name}&body=${message}`
+      `mailto:benaimjacob@gmail.com?subject=333%20Example%20Road%20${name}&body=${message}`
     );
 
     displayAlert(formattedFormData);
