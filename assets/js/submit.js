@@ -9,8 +9,7 @@ $(function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const formattedFormData = validateForm(formData);
-    const { name, message } = formattedFormData;
+    const formattedFormData = validateForm();
 
     postData(formattedFormData);
   });
