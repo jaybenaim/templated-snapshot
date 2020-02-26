@@ -9,15 +9,32 @@ $(function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
     const formData = $(".email-form");
-    const name = formData.find("#name").val();
-    const email = formData.find("#email").val();
-    const message = formData.find("#message").val();
-    const formattedFormData = { name, email, message };
 
-    window.open(
-      `mailto:benaimjacob@gmail.com?subject=333%20Example%20Road%20${name}&body=${message}`
-    );
+    const formattedFormData = validateForm(formData);
+    const { name, message } = formattedFormData;
 
-    displayAlert(formattedFormData);
+    if (formattedFormData) {
+      window.open(
+        `mailto:benaimjacob@gmail.com?subject=333%20Example%20Road%20%2D%20${name}&body=${message}`
+      );
+
+      displayAlert(formattedFormData);
+    }
   });
 });
+const validateForm = form => {
+  const name = form.find("#name").val();
+  const email = form.find("#email").val();
+  let message = form.find("#message").val();
+
+  const regex = /<\w*/gm;
+  const invalidMessage = message.match(regex);
+
+  if (!invalidMessage) {
+    message = `${message} \n from ${name}`;
+    return { name, email, message };
+  } else {
+    alert("Nice try!\n Hack on! ");
+    window.location.href = "http://www.staggeringbeauty.com/";
+  }
+};
