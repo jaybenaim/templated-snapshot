@@ -24,25 +24,24 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/email", (req, res, next) => {
-  const { name, email, message } = req.headers;
-  console.log(req.headers);
-  console.log(req.body);
+  const { name, email, message } = req.body;
+  let html = `<div>${message} <br /> from ${name}</div>`;
+  let subject = `333 Example Road - ${name}`;
   const msg = {
     to: "benaimjacob@gmail.com",
     from: email,
-    subject: "Sending with Twilio SendGrid is Fun",
-    text: "and easy to do anywhere, even with Node.js",
-    html: "<strong>and easy to do anywhere, even with Node.js</strong>"
+    subject,
+    text: message,
+    html
   };
-  // sgMail
-  //   .send(msg)
-  //   .then(res => {
-  //     console.log("Success");
-  //   })
-  //   .catch(err => {
-  //     console.log("Error", err);
-  //   });
-
+  sgMail
+    .send(msg)
+    .then(res => {
+      console.log("Success");
+    })
+    .catch(err => {
+      console.log("Error", err);
+    });
   res.send({ name, email, message });
 });
 
