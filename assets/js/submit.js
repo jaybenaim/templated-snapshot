@@ -8,7 +8,10 @@ const displayAlert = data => {
 $(function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
-    const formattedFormData = new FormData(form);
+
+    const formattedFormData = validateForm(formData);
+    const { name, message } = formattedFormData;
+
     postData(formattedFormData);
   });
 });
@@ -28,3 +31,26 @@ async function postData(formattedFormData) {
 
   displayAlert(formattedFormData);
 }
+
+const validateForm = form => {
+  const name = form.find("#name").val();
+  const email = form.find("#email").val();
+  let message = form.find("#message").val();
+
+  const regex = /<\w*/gm;
+  const invalidName = name.match(regex);
+  const invalidEmail = email.match(regex);
+  const invalidMessage = message.match(regex);
+
+  if (
+    invalidName === null &&
+    invalidEmail === null &&
+    invalidMessage === null
+  ) {
+    message = `${message} \n from ${name}`;
+    return { name, email, message };
+  } else {
+    alert("Nice try!\n Hack on! ");
+    window.location.href = "http://www.staggeringbeauty.com/";
+  }
+};
